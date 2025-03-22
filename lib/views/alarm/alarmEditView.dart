@@ -24,6 +24,7 @@ class _AlarmEditViewState extends State<AlarmEditView> {
   ClockEditController clockController = ClockEditController(time: TimeOfDay(hour: 6, minute: 0));
   TextEditingController descriptionController = TextEditingController();
   bool active = true;
+  bool vibrate = true;
   bool repeat = true;
 
   int snoozeMinutes = 5;
@@ -99,6 +100,7 @@ class _AlarmEditViewState extends State<AlarmEditView> {
       snoozeOptions: SnoozeOptions(
         minutes: snoozeMinutes,
         repeat: snoozeRepeat,
+        vibrate: vibrate,
         decreaseMinutesPerSnooze: snoozeDecreaseMinutesPerSnooze,
       ),
     );
@@ -293,6 +295,34 @@ class _AlarmEditViewState extends State<AlarmEditView> {
                               ],
                             );
                           }
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 3,
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.vibration),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: const Text('Vibrate'),
+                            ),
+                            Spacer(),
+                            StatefulBuilder(
+                              builder: (context, setState) {
+                                return Checkbox(
+                                  value: vibrate,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      vibrate = value!;
+                                    });
+                                  },
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
                       Padding(

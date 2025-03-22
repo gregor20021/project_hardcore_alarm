@@ -263,7 +263,7 @@ class AlarmService {
       dateTime: time,
       assetAudioPath: alarm.soundPath,
       loopAudio: true,
-      vibrate: true,
+      vibrate: alarm.snoozeOptions.vibrate,
       warningNotificationOnKill: true,
       androidFullScreenIntent: true,
       volumeSettings: VolumeSettings.fixed(volume: alarm.volume / 100, volumeEnforced: true,),
