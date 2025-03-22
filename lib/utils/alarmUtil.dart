@@ -12,26 +12,26 @@ class AlarmUtil {
   static bool checkIfAlarmScheduledForRestOfDay(AlarmEntity alarmEntity, DateTime date) {
     bool isSet = false;
     switch (date.weekday) {
-      case 1:
-        isSet = alarmEntity.schedule.sunday;
-        break;
-      case 2:
+      case DateTime.monday:
         isSet = alarmEntity.schedule.monday;
         break;
-      case 3:
+      case DateTime.tuesday:
         isSet = alarmEntity.schedule.tuesday;
         break;
-      case 4:
+      case DateTime.wednesday:
         isSet = alarmEntity.schedule.wednesday;
         break;
-      case 5:
+      case DateTime.thursday:
         isSet = alarmEntity.schedule.thursday;
         break;
-      case 6:
+      case DateTime.friday:
         isSet = alarmEntity.schedule.friday;
         break;
-      case 7:
+      case DateTime.saturday:
         isSet = alarmEntity.schedule.saturday;
+        break;
+      case DateTime.sunday:
+        isSet = alarmEntity.schedule.sunday;
         break;
     }
     if (isSet) {
