@@ -1,12 +1,17 @@
 # 🕑⏰ **Hardcore Alarm** – *The Ultimate Multi-Phone Wake-Up System*
 
+
+
+
  **Hardcore Alarm** is not your average alarm app – it’s a **multi-phone alarm system** designed to outsmart your half-asleep brain and force you out of bed every single morning.
   
  **Built for myself**, now shared with the world, it’s ideal for anyone who wants to stop snoozing and start **owning their mornings**.
  
  I’ve tried countless “hard to dismiss” alarms before – math puzzles, photo challenges, shaking the phone – but I **always found a way to cheat the system**, whether by muting it, faking the wake-up method, or simply turning off the phone.  
   
- That’s why **Hardcore Alarm** was born – a system designed so that even I couldn’t find a loophole.
+ That’s why **Hardcore Alarm** was born – a systemdesigned so that even I couldn’t find a loophole.
+ 
+ <img src="https://github.com/user-attachments/assets/349e7848-cc22-4848-8d89-3f09f9a08e3e" width="500" />
 
 
 ---
@@ -19,6 +24,11 @@
    - 💡 *I personally recommend locking it down:*  
      I use a **simple picture frame with glass** where I nailed the back shut, cutting out a small hole for the charging cable to pass through. This keeps the phone secure, always visible, but completely out of reach – and I personaly think it **doesn’t look half bad on the nightstand either**.
    - Recommended to keep it **plugged in permanently** with Android settings configured so the screen never turns off **(root NOT required)**
+  
+<img src="https://github.com/user-attachments/assets/7d97e46c-ae53-4aea-9e0b-237287b62e55" width="300" />
+
+(back side of the picture frame with the charge cable hole screwed down)
+
 
 2. 📲 **Dismissal Phone (Main Phone):**
    - Acts as the **dismissal controller**, scanning the QR code to stop or snooze the alarm.
@@ -57,8 +67,10 @@
 ## 🎯 **Key Features**
 
 ✨ Multi-device integration (Alarm + Dismissal phone)  
-✨ Internet-based syncing of alarms and QR codes  
-✨ Uncheatable dismissal system  
+✨ Internet-based syncing of alarm
+s and QR codes  
+✨ Uncheatable dismissal system
+
 ✨ Forces physical activity immediately after waking  
 
 ---
