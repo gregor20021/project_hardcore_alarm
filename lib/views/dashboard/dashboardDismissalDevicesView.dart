@@ -14,7 +14,7 @@ class DashboardDismissableView extends StatefulWidget {
 
 class _DashboardDismissableViewState extends State<DashboardDismissableView> {
 
-  List<DismissClient> dismissClients = DismissClientsService().getDismissClients();
+  List<DismissClient> dismissClients = DismissClientsService().getDismissClients().where((client) => client.deviceId != 'server').toList();
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +46,28 @@ class _DashboardDismissableViewState extends State<DashboardDismissableView> {
                               showDialog(context: context, builder: (context) {
                                 return AlertDialog(
                                   title: Text("Delete dismiss client"),
-                                  content: Text("Are you sure you want to delete this dismiss client?"),
+                                  content: Text(
+                                      "Are you sure you want to delete this dismiss client?"),
                                   actions: [
                                     TextButton(onPressed: () {
                                       Navigator.of(context).pop();
                                     }, child: Text("Cancel")),
                                     TextButton(onPressed: () {
-                                      DismissClientsService().removeDismissClient(e);
-                                      setState(() {});
+                                      DismissClientsService()
+                                          .removeDismissClient(e);
+                                      Navigator.of(context).pop();
+                                      ScaffoldMessenger
+                                          .of(context)
+                                          .showSnackBar(
+                                          SnackBar(content: Text(
+                                              "Dismiss client deleted"),
+                                            backgroundColor: Colors.green,));
+                                      if (mounted) {
+                                        setState(() {
+                                          dismissClients = DismissClientsService()
+                                              .getDismissClients().where((client) => client.deviceId != 'server').toList();
+                                        });
+                                      }
                                     }, child: Text("Delete")),
                                   ],
                                 );

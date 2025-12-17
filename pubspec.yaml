@@ -22,7 +22,10 @@ dependencies:
   qr_code_scanner_plus: ^2.0.10+1
   carousel_slider: ^5.0.0
   device_info_plus: ^11.3.3
-  skeletonizer: ^1.4.3
+  skeletonizer: ^2.1.2
+  shelf: ^1.4.0
+  shelf_router: ^1.1.0
+  network_info_plus: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +36,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/web/

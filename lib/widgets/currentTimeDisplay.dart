@@ -36,15 +36,15 @@ class _CurrentTimeState extends State<CurrentTime> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
       Text(
         TimeUtil.getFormattedDateTime(now, showTime: false),
-        style: const TextStyle(fontSize: 20),
+        style: const TextStyle(fontSize: 18),
       ),
       Text(
         TimeUtil.getFormattedTime(now.hour, now.minute),
-        style: const TextStyle(fontSize: 50),
+        style: const TextStyle(fontSize: 40),
       ),
       Text(
         TimeUtil.getWeekday(now.weekday),
-        style: const TextStyle(fontSize: 20),
+        style: const TextStyle(fontSize: 17),
       ),
     ],);
   }

@@ -4,6 +4,7 @@ import 'package:alarm_app/services/alarmService.dart';
 import 'package:alarm_app/services/appIdService.dart';
 import 'package:alarm_app/services/dismissClientsService.dart';
 import 'package:alarm_app/services/network/NetworkHostService.dart';
+import 'package:alarm_app/services/httpServerService.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -31,6 +32,8 @@ class _SplashViewState extends State<SplashView> {
         await AlarmService().init();
 
         await DismissClientsService().init();
+
+        await HttpServerService().init();
 
         print(AppIdService().appId);
 

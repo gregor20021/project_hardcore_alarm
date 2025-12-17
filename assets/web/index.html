@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hardcore Alarm</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>⏰ Hardcore Alarm</h1>
+            <button id="refresh-btn" class="icon-btn" onclick="refreshAlarms()">
+                <span>🔄</span>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-container">
+        <div id="alarm-list-view" class="view">
+            <div class="view-header">
+                <h2>Alarms</h2>
+                <button id="add-alarm-btn" class="primary-btn" onclick="showAlarmForm()">
+                    + Add Alarm
+                </button>
+            </div>
+            <div id="alarms-container" class="alarms-grid"></div>
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <p>No alarms yet. Create your first alarm!</p>
+            </div>
+        </div>
+
+        <div id="alarm-form-view" class="view" style="display: none;">
+            <div class="view-header">
+                <h2 id="form-title">Create Alarm</h2>
+                <button class="secondary-btn" onclick="cancelForm()">Cancel</button>
+            </div>
+            <form id="alarm-form" onsubmit="saveAlarm(event)">
+                <div class="form-group">
+                    <label for="alarm-title">Title</label>
+                    <input type="text" id="alarm-title" value="New Alarm" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="alarm-description">Description</label>
+                    <textarea id="alarm-description" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Time</label>
+                    <div class="time-picker">
+                        <select id="alarm-hour" required></select>
+                        <span>:</span>
+                        <select id="alarm-minute" required></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Days</label>
+                    <div class="days-selector">
+                        <label class="day-checkbox">
+                            <input type="checkbox" id="day-monday">
+                            <span>M</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" id="day-tuesday">
+                            <span>T</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" id="day-wednesday">
+                            <span>W</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" id="day-thursday">
+                            <span>T</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" id="day-friday">
+                            <span>F</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" id="day-saturday">
+                            <span>S</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" id="day-sunday">
+                            <span>S</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="alarm-volume">Volume: <span id="volume-value">80</span></label>
+                    <input type="range" id="alarm-volume" min="0" max="100" value="80" oninput="updateVolumeDisplay(this.value)">
+                </div>
+
+                <div class="form-group">
+                    <label>Snooze Options</label>
+                    <div class="snooze-options">
+                        <div class="slider-row">
+                            <label for="snooze-minutes">Snooze</label>
+                            <span id="snooze-minutes-value">for 5 minutes</span>
+                        </div>
+                        <input type="range" id="snooze-minutes" min="1" max="20" value="5" oninput="updateSnoozeMinutesDisplay(this.value)">
+
+                        <div class="slider-row">
+                            <label for="snooze-repeat">Snooze times</label>
+                            <span id="snooze-repeat-value">unlimited times</span>
+                        </div>
+                        <input type="range" id="snooze-repeat" min="0" max="5" value="0" oninput="updateSnoozeRepeatDisplay(this.value)">
+
+                        <div class="slider-row">
+                            <label for="snooze-decrease">Decrease</label>
+                            <span id="snooze-decrease-value">No decrease</span>
+                        </div>
+                        <input type="range" id="snooze-decrease" min="0" max="5" value="0" oninput="updateSnoozeDecreaseDisplay(this.value)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-row">
+                        <label class="checkbox-label-large">
+                            <input type="checkbox" id="alarm-repeat">
+                            <span>Repeat</span>
+                        </label>
+                        <label class="checkbox-label-large">
+                            <input type="checkbox" id="alarm-vibrate" checked>
+                            <span>Vibrate</span>
+                        </label>
+                        <label class="checkbox-label-large">
+                            <input type="checkbox" id="alarm-active" checked>
+                            <span>Active</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-btn full-width">Save Alarm</button>
+            </form>
+        </div>
+    </main>
+
+    <div id="alarm-actions-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 id="modal-alarm-title">Alarm</h3>
+                    <p id="modal-alarm-time" style="color: var(--accent); font-size: 1.5rem; font-weight: bold; margin-top: 0.5rem;"></p>
+                </div>
+                <button class="close-btn" onclick="closeAlarmActionsModal()">×</button>
+            </div>
+            <div class="modal-actions">
+                <button id="modal-dismiss-btn" class="primary-btn full-width">
+                    Dismiss Alarm
+                </button>
+                <button id="modal-snooze-btn" class="secondary-btn full-width">
+                    Snooze Alarm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="qr-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Scan QR Code</h3>
+                <button class="close-btn" onclick="closeQrScanner()">×</button>
+            </div>
+            <div id="qr-reader"></div>
+            <p class="modal-instructions">Position the QR code within the frame</p>
+            <button class="secondary-btn full-width" onclick="closeQrScanner()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="qr-scanner.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

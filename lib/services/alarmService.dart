@@ -169,14 +169,12 @@ class AlarmService {
       snoozeHolder.snoozeCount += 1;
       int minutes = alarm.snoozeOptions.minutes;
       minutes = AlarmUtil.getSnoozeMinutes(alarm, snoozeHolder);
-      snoozeHolder.nextSnoozeTime =
-          DateTime.now().add(Duration(minutes: minutes));
+      snoozeHolder.nextSnoozeTime = DateTime.now().add(Duration(minutes: minutes));
     } else {
       snoozeHolders.add(SnoozeHolder(
         alarmId: id,
         snoozeCount: 1,
-        nextSnoozeTime: DateTime.now().add(
-            Duration(minutes: alarm.snoozeOptions.minutes)),
+        nextSnoozeTime: DateTime.now().add(Duration(minutes: alarm.snoozeOptions.minutes)),
       ),);
     }
     await Alarm.getAlarms().then((alarms) {

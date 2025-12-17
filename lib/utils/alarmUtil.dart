@@ -50,7 +50,7 @@ class AlarmUtil {
     }
     if (alarmEntity.snoozeOptions.decreaseMinutesPerSnooze > 0) {
       snoozeMinutes -= alarmEntity.snoozeOptions.decreaseMinutesPerSnooze * (snoozeHolder.snoozeCount);
-      if (snoozeMinutes < 0) {
+      if (snoozeMinutes < 1) {
         snoozeMinutes = 1;
       }
     }

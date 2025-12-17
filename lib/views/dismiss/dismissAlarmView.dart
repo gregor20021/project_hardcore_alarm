@@ -37,44 +37,65 @@ class _DismissAlarmViewState extends State<DismissAlarmView> {
   Future<void> dismiss() async {
     String? scannedCode;
     await Navigator.pushNamed(context, '/qrReader', arguments: (code) async {
-      if (selectedClient?.qrCode != null && code == selectedClient!.qrCode) {
-        scannedCode = code;
-        return true;
-      } else {
-        return false;
-      }
+      scannedCode = code;
+      return true;
     });
 
-    if (scannedCode == selectedClient?.qrCode) {
+    if (scannedCode == selectedClient?.dismissQrCode) {
       AlarmDtoRequest req = AlarmDtoRequest();
       req.alarmId = alarm!.id;
       AlarmDtoResponse? res = await NetworkClientService().dismissAlarm(selectedClient!.deviceId!, req);
       if (res == null || res.success != true) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Failed to dismiss alarm")));
+              SnackBar(content: Text("Failed to dismiss alarm",), backgroundColor: Colors.red,));
         }
       } else {
         if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Alarm dismissed",), backgroundColor: Colors.green,));
           Navigator.pop(context);
         }
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Failed to dismiss alarm, wrong QR code",), backgroundColor: Colors.red,));
       }
     }
   }
 
   Future<void> snooze() async {
-    AlarmDtoRequest req = AlarmDtoRequest();
-    req.alarmId = alarm!.id;
-    AlarmDtoResponse? res = await NetworkClientService().snoozeAlarm(
-        selectedClient!.deviceId!, req);
-    if (res == null || res.success != true) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Failed to snooze alarm")));
+    String? scannedCode;
+    bool requiresQrCodeScan = selectedClient?.snoozeQrCode != null;
+
+    if (requiresQrCodeScan) {
+      await Navigator.pushNamed(context, '/qrReader', arguments: (code) async {
+        scannedCode = code;
+        return true;
+      });
+    }
+
+    if (scannedCode == selectedClient?.snoozeQrCode || !requiresQrCodeScan) {
+      AlarmDtoRequest req = AlarmDtoRequest();
+      req.alarmId = alarm!.id;
+      AlarmDtoResponse? res = await NetworkClientService().snoozeAlarm(selectedClient!.deviceId!, req);
+      if (res == null || res.success != true) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Failed to snooze alarm",), backgroundColor: Colors.red,));
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Alarm snoozed",), backgroundColor: Colors.green,));
+          Navigator.pop(context);
+        }
       }
     } else {
       if (mounted) {
-        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Failed to snooze alarm, wrong QR code",), backgroundColor: Colors.red,));
       }
     }
   }

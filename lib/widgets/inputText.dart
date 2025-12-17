@@ -86,7 +86,9 @@ class InputField extends StatelessWidget {
                                           hintStyle: const TextStyle(
                                             color: Colors.grey,
                                           ),
+                                          enabledBorder: InputBorder.none,
                                           border: InputBorder.none,
+                                          filled: false,
                                         ),
                                         inputFormatters: inputFormatters,
                                         keyboardType: keyboardType,

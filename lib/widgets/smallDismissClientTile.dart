@@ -28,38 +28,72 @@ class SmallDismissClientTile extends StatelessWidget {
         onClick?.call();
       },
       child: Card(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: sizeHeight,
-            maxHeight: sizeHeight,
+        elevation: 3,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+              width: 1,
+            ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(Icons.devices_sharp, size: 40),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        dismissClient.deviceName ?? "Unnamed device",
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: sizeHeight,
+              maxHeight: sizeHeight,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      Icons.devices_sharp,
+                      size: 32,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    DismissClientsService().removeDismissClient(dismissClient);
-                    deleteCallback?.call();
-                  },
-                ),
-              ],
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          dismissClient.deviceName ?? "Unnamed device",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          dismissClient.deviceId ?? "",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline),
+                    color: Theme.of(context).colorScheme.error,
+                    onPressed: () {
+                      DismissClientsService().removeDismissClient(dismissClient);
+                      deleteCallback?.call();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

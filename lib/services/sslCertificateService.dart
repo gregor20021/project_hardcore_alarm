@@ -1,0 +1,70 @@
+import 'dart:io';
+
+class SslCertificateService {
+  SslCertificateService._();
+  static final SslCertificateService _instance = SslCertificateService._();
+  factory SslCertificateService() => _instance;
+
+  // Self-signed certificate (PEM format) - valid for 10 years
+  // CN=alarm-server
+  static const String _certificatePem = '''-----BEGIN CERTIFICATE-----
+MIIDDzCCAfegAwIBAgIUbqqYzyNghFnkOPxKrkMEOCMziQ4wDQYJKoZIhvcNAQEL
+BQAwFzEVMBMGA1UEAwwMYWxhcm0tc2VydmVyMB4XDTI1MTIxNjIzNTQzM1oXDTM1
+MTIxNDIzNTQzM1owFzEVMBMGA1UEAwwMYWxhcm0tc2VydmVyMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuSpXExdVu0xsPUuFr8OP3t9+O7QuPPoLOKdn
+iWy+Fe8QBo7qbQHQ2ZNGz4x29IlQ0Q0sOHEfxXDn6E92NICfq+ae4cWj/51Wsiba
+t2bYyMjBanR5yyKz7M2iCTtnajASFr9W/ffY3Sf+iGrFfL5dVLGHRLj4/GBQREMO
+fNpH/7DfqaUorbBbajKKfuEHxAwBqW1GmyFJdYsk24FVU1tg5Zv26iZFfeqMkiyO
+UJdPFCeB8GcYvOSV+5zuwLgOC5Ftl/NkmBSOplXr8ggHzbkmzLwbwxdf9Ffay8o/
+uSSVz8YUr3QBD0spnDzZKca6JzbXSuomeqV19SNkM/m2vveG8wIDAQABo1MwUTAd
+BgNVHQ4EFgQUJ3/FFSJBH2rfRK1beFs+FFuuyVswHwYDVR0jBBgwFoAUJ3/FFSJB
+H2rfRK1beFs+FFuuyVswDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOC
+AQEAbUlwsRPXaPQnNW/oRBLE2Vy7h7nCpqSIFMSWP070YfpEj8CzwWqpfSYG3VeY
+seyHC2AsoFn3zHdYYsfofipE/LiT4IMETR4hrL6++RUgB22zMLE6q3qF3jR9Ayqz
+VuysnjX9eTugnjeSF8WBwPCiiRbW+8ohKDzrOqxtGt4uNHfa66PPDQ6qBA6I2p7d
+YtcorUe1XHfGYCYIWazI2WAw6WG9XlsXragBufx7CquS+d3jYBiUlkigqMFxAN+Q
+cVApbU3dMp25Z99ULyf99bKdnz1jsKLY0dsz+x1i1Bb3MzptyITKQM1l25pqSCIg
+NoiI1vrNL525AzgemRp4KqmQqw==
+-----END CERTIFICATE-----
+''';
+
+  static const String _privateKeyPem = '''-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC5KlcTF1W7TGw9
+S4Wvw4/e3347tC48+gs4p2eJbL4V7xAGjuptAdDZk0bPjHb0iVDRDSw4cR/FcOfo
+T3Y0gJ+r5p7hxaP/nVayJtq3ZtjIyMFqdHnLIrPszaIJO2dqMBIWv1b999jdJ/6I
+asV8vl1UsYdEuPj8YFBEQw582kf/sN+ppSitsFtqMop+4QfEDAGpbUabIUl1iyTb
+gVVTW2Dlm/bqJkV96oySLI5Ql08UJ4HwZxi85JX7nO7AuA4LkW2X82SYFI6mVevy
+CAfNuSbMvBvDF1/0V9rLyj+5JJXPxhSvdAEPSymcPNkpxronNtdK6iZ6pXX1I2Qz
++ba+94bzAgMBAAECggEAGm/WIM6rGePObG3092RXjT2hm0qdc21L3tnf6XoSJbWN
+NzJ+e/PPatEhQg7PCRj15fMYhjJ4k8sMAVofCV337iYuNxPt11gSgbsUbS0M9JXd
+L6LTpNIemEe/w8usdzfHzWGiPP5/AwxrxfRgn+/aCXaTVpeGTRo/O4/LaL4Nm47Z
+XJuHcXBvAtkGTGoLGtqP9s5JiH6wd1fc6Z2lzU/JxKbIzjzKNpvNhDhGZufFqkWB
++cuvZVE7qaq+5YQeM3EoC4sd8UaXRApBs6JMtwtGtuqgqvcK8+5TPNCGb0qIfeHm
+04CLVWkz/6Tj2pHW2isbAiArhZD3jaQ9QyXKup27QQKBgQD/EQVu2JYK5eJsy7Nd
+MwnNP6/59IlRh1EOo84UBTP/d1pyYvAHc9QJrnGHqXhilXzR73GvrK3Ps1qYhAKW
+gR089G1tEE+Wsb54AehBsC65qCDsHvixqZGKrX3c0ujQ7Lusb6QUIeiEYUUS4D6S
+2RoskViO/drF00ZDH+YRUW4rIQKBgQC519Of+paYU7jX0AFwileSBrE5iFsKZasL
+wNYnbLKqAKrPi+bAZSOO5k7bqqU26R3c61OoWFfMMdA7zQ46WbCj90rwmQS6YUaB
+C8jDGLLJqqEpahJRFHyFRgDJOk8lNQ2BvKtgy3H7lIR/JAfh0AO84pNFMr6QiwnI
+NIX00CdjkwKBgQDMJe15SLTeyBwwA+HtiHoh4wWQQ97ceDeyRf0dHQT/RaIIx5Ni
+A50EmrCXalbGYOtkhAc0GjuLb/vk8lO37mNedCxZDKMG9ACEwNIKMV9UjXK8ShW2
+7QdmPXHtmolpHvEfFMP4sSMPQWMttnmew1Eltrdwy1Gc4HruIsvbtJc+wQKBgEN2
+Ez4piu00xw6gVUVzEqLRhxfpZZL6oQKdN6AMFzcbEuZQVK1WiXfgJpQa9+pc6Rg+
+3JlpqEVZd8udfiK0WCjNJgj8ovi9QwipLHGVz6DhLauI86k3FJSUesiRQBWzknmb
+8WIrt+6pVQeKHspb5l90qB0gdIin0B864b2iqgm9AoGBAIjkiXDaq+sqqY00sdeC
+ibhfZkc1jTX63RRJsw+hjhAiD35C83VszUydEr6LFtPQrw2Y6a9xQlLpWGZWQb6a
+reDXXphgKB1Ji9TaqdSuacI2B5sitbacLBeyqgnC4Sgq5SQDe/RQJNG4AvQ8uzQa
+OnoFvp65W2g3KG3Gc0VtH+oG
+-----END PRIVATE KEY-----
+''';
+
+  SecurityContext createSecurityContext() {
+    final context = SecurityContext();
+
+    // Use in-memory certificates
+    context.useCertificateChainBytes(_certificatePem.codeUnits);
+    context.usePrivateKeyBytes(_privateKeyPem.codeUnits);
+
+    return context;
+  }
+}

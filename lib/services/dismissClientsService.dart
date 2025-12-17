@@ -8,6 +8,7 @@ class DismissClientsService {
 
   bool _isInicialized = false;
   List<DismissClient> dismissClients = new List.empty(growable: true);
+  List<Function> _listeners = [];
 
   Future<void> init() async {
     if (_isInicialized) return;
@@ -16,8 +17,23 @@ class DismissClientsService {
       dismissClients.add(alarm);
     }
   }
+
   List<DismissClient> getDismissClients() {
     return dismissClients;
+  }
+
+  void addListener(Function listener) {
+    _listeners.add(listener);
+  }
+
+  void removeListener(Function listener) {
+    _listeners.remove(listener);
+  }
+
+  void _notifyListeners() {
+    for (var listener in _listeners) {
+      listener();
+    }
   }
 
   void addDismissClient(DismissClient dismissClient) {
@@ -26,6 +42,7 @@ class DismissClientsService {
     }
     dismissClients.add(dismissClient);
     StorageService.writeDismissableClient(dismissClients);
+    _notifyListeners();
   }
 
   void removeDismissClient(DismissClient dismissClient) {
@@ -34,5 +51,6 @@ class DismissClientsService {
     }
     dismissClients.remove(dismissClient);
     StorageService.writeDismissableClient(dismissClients);
+    _notifyListeners();
   }
 }
