@@ -9,10 +9,12 @@ import 'package:alarm_app/views/dismiss/qrCodeScanner.dart';
 import 'package:alarm_app/views/splashScreen.dart';
 import 'package:alarm_app/views/connect/webServerQrSetupView.dart';
 import 'package:flutter/material.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'globals.dart' as globals;
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await WakelockPlus.enable();
   runApp(const MyApp());
 }
 

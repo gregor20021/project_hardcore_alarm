@@ -26,6 +26,7 @@ dependencies:
   shelf: ^1.4.0
   shelf_router: ^1.1.0
   network_info_plus: ^6.0.0
+  wakelock_plus: ^1.2.8
 
 dev_dependencies:
   flutter_test:
