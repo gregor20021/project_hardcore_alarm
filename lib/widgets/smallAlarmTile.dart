@@ -33,14 +33,6 @@ class SmallAlarmTile extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              border: alarm.active
-                  ? Border.all(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.primary.withOpacity(0.3),
-                      width: 1,
-                    )
-                  : null,
             ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
@@ -121,9 +113,9 @@ class SmallAlarmTile extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
-                              color: alarm.active
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurface,
+                              color: !alarm.active
+                                  ? Theme.of(context).colorScheme.primary.withOpacity(0.7)
+                                  : Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
                             ),
                           ),
                         ],

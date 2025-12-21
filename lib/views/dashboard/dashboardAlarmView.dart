@@ -51,7 +51,9 @@ class _DashboardAlarmViewState extends State<DashboardAlarmView> {
                   horizontal: 8.0,
                   vertical: 30,
                 ),
-                child: Column(crossAxisAlignment: vertical ? CrossAxisAlignment.center : CrossAxisAlignment.end,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: vertical ? CrossAxisAlignment.center : CrossAxisAlignment.end,
                   children: [
                     ScreenHeading(icon: Icons.alarm, text: "Hardcore alarms"),
                     SizedBox(height: 25,),
@@ -60,26 +62,21 @@ class _DashboardAlarmViewState extends State<DashboardAlarmView> {
                 ),
               ),
               Expanded(
-                child: Flex(
-                  direction: Axis.vertical,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          alignment: WrapAlignment.start,
-                          children: [
-                            for (AlarmEntity alarm in alarms)
-                              SmallAlarmTile(alarm: alarm, onDeleted: (alarm) async {
-                                await AlarmService().deleteAlarm(alarm.id);
-                                setState(() {});
-                              }),
-                          ],
-                        ),
-                      ),
+                child: Padding(
+                  padding:  EdgeInsets.symmetric(vertical: vertical ? 30.0 : 0, horizontal: !vertical ? 30 : 0),
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.start,
+                      children: [
+                        for (AlarmEntity alarm in alarms)
+                          SmallAlarmTile(alarm: alarm, onDeleted: (alarm) async {
+                            await AlarmService().deleteAlarm(alarm.id);
+                            setState(() {});
+                          }),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],

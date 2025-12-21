@@ -33,18 +33,18 @@ class _CurrentTimeState extends State<CurrentTime> {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    return Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.end,mainAxisSize: MainAxisSize.min,children: [
       Text(
         TimeUtil.getFormattedDateTime(now, showTime: false),
         style: const TextStyle(fontSize: 18),
       ),
       Text(
         TimeUtil.getFormattedTime(now.hour, now.minute),
-        style: const TextStyle(fontSize: 40),
+        style: const TextStyle(fontSize: 50),
       ),
       Text(
         TimeUtil.getWeekday(now.weekday),
-        style: const TextStyle(fontSize: 17),
+        style: const TextStyle(fontSize: 25),
       ),
     ],);
   }
